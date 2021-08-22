@@ -1,0 +1,78 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300);
+html,
+body {
+    background-color: #F3F3F3;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+@-webkit-keyframes open {
+    from {
+        padding: 0 30px;
+        height: 0;
+    }
+    to {
+        height: 470px;
+    }
+}
+
+
+table {
+    position: relative;
+    top: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+tr:nth-child(1) td:nth-child(1),
+tr:nth-child(1) td:nth-child(2),
+tr:nth-child(1) td:nth-child(3),
+tr:nth-child(1) td:nth-child(4),
+tr:nth-child(1) td:nth-child(5) {
+    padding-bottom: 32px;
+    -webkit-animation: up 2s cubic-bezier(.39, 0, .38, 1) .7s;
+}
+
+tr:nth-child(2) td:nth-child(1),
+tr:nth-child(2) td:nth-child(2),
+tr:nth-child(2) td:nth-child(3),
+tr:nth-child(2) td:nth-child(4),
+tr:nth-child(2) td:nth-child(5) {
+    padding-bottom: 7px;
+    -webkit-animation: up 2s cubic-bezier(.39, 0, .38, 1) .9s;
+}
+
+tr:nth-child(3) td:nth-child(1),
+tr:nth-child(3) td:nth-child(2),
+tr:nth-child(3) td:nth-child(3),
+tr:nth-child(3) td:nth-child(4),
+tr:nth-child(3) td:nth-child(5) {
+    padding-bottom: 7px;
+    -webkit-animation: up 2s cubic-bezier(.39, 0, .38, 1) .9s;
+}
+
+tr:nth-child(2),
+tr:nth-child(3) {
+    font-size: .9em;
+}
+
+tr:nth-child(3) {
+    color: #999;
+}
+
+@-webkit-keyframes up {
+    0% {
+        opacity: 0;
+        -webkit-transform: translateY(15px);
+    }
+    50% {
+        opacity: 0;
+        -webkit-transform: translateY(15px);
+    }
+    99% {
+        -webkit-animation-play-state: paused;
+    }
+    100% {
+        opacity: 1;
+    }
+}
