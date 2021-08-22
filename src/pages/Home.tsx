@@ -10,11 +10,13 @@ import weatherApiServices from "../Utils/weatherApiServices";
 import variables from "../Utils/variables";
 import axios from "axios";
 import { CityWeatherInterface } from "../Interfaces/WeatherCityInterface";
+import { WeatherForecastInterface } from "../Interfaces/WeatherForecastInterface";
 
 function Home() {
   const weatherContext = useContext(WeatherContext);
   const cityNameInputRef = useRef<HTMLInputElement>(null);
   const cityWeather: CityWeatherInterface = {};
+  const cityWeatherForecast: WeatherForecastInterface = {};
   const [weather, setWeatherData] = useState<CityWeatherInterface>(cityWeather);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,27 +38,30 @@ function Home() {
       };
 
       axios
-        .get(variables.API_URL, { params })
+        .get(variables.API_URL.concat('/forecast'), { params })
         .then((res) => {
           return res.data;
         })
         .then((data) => {
-          cityWeather.base = data.base;
-          cityWeather.clouds = data.clouds;
-          cityWeather.cod = data.cod;
-          cityWeather.coord = data.coord;
-          cityWeather.dt = data.dt;
-          cityWeather.id = data.base;
-          cityWeather.main = data.main;
-          cityWeather.name = data.name;
-          cityWeather.sys = data.sys;
-          cityWeather.timezone = data.timezone;
-          cityWeather.visibility = data.visibility;
-          cityWeather.weather = data.weather;
-          cityWeather.wind = data.wind;
-        
-          console.log(weather);
 
+          // cityWeather.base = data.base;
+          // cityWeather.clouds = data.clouds;
+          // cityWeather.cod = data.cod;
+          // cityWeather.coord = data.coord;
+          // cityWeather.dt = data.dt;
+          // cityWeather.id = data.base;
+          // cityWeather.main = data.main;
+          // cityWeather.name = data.name;
+          // cityWeather.sys = data.sys;
+          // cityWeather.timezone = data.timezone;
+          // cityWeather.visibility = data.visibility;
+          // cityWeather.weather = data.weather;
+          // cityWeather.wind = data.wind;
+        
+          console.log(data);
+
+          weatherContext.setWeatherForecast(data);
+          weatherContext.setCity(data.city);
           weatherContext.setWeather(cityWeather);
            
           setIsLoading(false);

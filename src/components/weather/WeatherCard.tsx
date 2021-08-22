@@ -1,30 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import CurrentWeatherCard from "./CurrentWeatherCard";
 import OtherDaysWeatherCard from "./OtherDaysWeatherCard";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import { WeatherContext } from "../../store/weatherStoreContext";
+import { useContext } from "react";
+import { Weather } from "../../Interfaces/WeatherCityInterface";
+import { ObjectWeather } from "../../Interfaces/WeatherForecastInterface";
+import WeatherPreviewCard from "./WeatherPreviewCard";
 
 function WeatherCard() {
-  return (
-    <WeatherCardContainer>
+  const weatherContext = useContext(WeatherContext)!;
+
+  let content;
+
+  if (weatherContext.weatherForecast.list) {
+    let arrayAux = weatherContext.weatherForecast.list;
+    arrayAux = arrayAux.filter(
+      (item, index, self) =>
+        index ===
+        self.findIndex((t) => t.dt_txt.substring(0,10) === item.dt_txt.substring(0,10))
+    );
+
+    content = (
       <ContainerCurrentWeatherCard>
-        <CurrentWeatherCard></CurrentWeatherCard>
+
+      <Tabs>
+        {arrayAux!.map((weatherForecast, index) => {
+          return (
+            <TabPanel>
+              <CurrentWeatherCard
+                weather={weatherForecast}
+              ></CurrentWeatherCard>
+            </TabPanel>
+          );
+        })}
+        
+        <TabList>
+          {arrayAux!.map((weatherForecast, index) => {
+            return <Tab><WeatherPreviewCard weather={weatherForecast}></WeatherPreviewCard></Tab>;
+          })}
+        </TabList>
+      </Tabs>
       </ContainerCurrentWeatherCard>
 
-      <ContainerOtherDaysWeatherCard>
-        <OtherDaysWeatherCard></OtherDaysWeatherCard>
-      </ContainerOtherDaysWeatherCard>
-    </WeatherCardContainer>
-  );
+    );
+  } else {
+    content = <NoDataLabel>No city searched...</NoDataLabel>;
+  }
+
+  return <WeatherCardContainer>{content}</WeatherCardContainer>;
 }
 
 const WeatherCardContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   height: auto;
-
   margin: 0 auto;
   margin-top: 5%;
   padding: 5px 30px;
@@ -35,11 +70,19 @@ const WeatherCardContainer = styled.div`
 `;
 
 const ContainerCurrentWeatherCard = styled.div`
-  flex-grow: 1;
-`;
+width: 100%;`;
 
 const ContainerOtherDaysWeatherCard = styled.div`
   flex-grow: 4;
+`;
+
+const NoDataLabel = styled.label`
+  color: color(#575756 a(0.8));
+  letter-spacing: 1.5px;
+  padding-left: 1rem;
+  margin: auto;
+  font-size: 1.5rem;
+  font-weight: lighter;
 `;
 
 export default WeatherCard;

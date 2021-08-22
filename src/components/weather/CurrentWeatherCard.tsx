@@ -3,10 +3,11 @@ import styled from "styled-components";
 import classes from "./CurrentWeatherCard.module.css";
 import { WeatherContext } from "../../store/weatherStoreContext";
 import { useContext } from "react";
+import { CityWeatherInterface } from "../../Interfaces/WeatherCityInterface";
+import { ObjectWeather } from "../../Interfaces/WeatherForecastInterface";
 
-function CurrentWeatherCard() {
+function CurrentWeatherCard(props: { weather: ObjectWeather }) {
   const weatherContext = useContext(WeatherContext);
-  console.log("weatherContext");
 
   // Function to convert mph to kmph
   function mphTOkmph(mph: number) {
@@ -15,24 +16,30 @@ function CurrentWeatherCard() {
 
   return (
     <CardContainer>
-      <CityNameTitle>{weatherContext.weather.name}</CityNameTitle>
+      <CityNameTitle>
+        {weatherContext.city.name}
+        {","}
+        <Country>{weatherContext.city.country}</Country>
+      </CityNameTitle>
       <WeatherDescriptionTitle>
-        {weatherContext.weather
-          ? weatherContext.weather.weather
-            ? weatherContext.weather.weather[0].main
-            : ""
-          : ""}
+        <span>
+          {props.weather
+            ? props.weather.weather
+              ? props.weather.weather[0].description
+              : ""
+            : ""}
+        </span>
         <span>
           Wind{" "}
-          {weatherContext.weather
-            ? weatherContext.weather.wind
-              ? Math.round(mphTOkmph(weatherContext.weather.wind.speed))
+          {props.weather
+            ? props.weather.wind
+              ? Math.round(mphTOkmph(props.weather.wind.speed))
               : ""
             : ""}
           <span>km/h</span> <span>•</span> Humidity{" "}
-          {weatherContext.weather
-            ? weatherContext.weather.weather
-              ? weatherContext.weather.main?.humidity
+          {props.weather
+            ? props.weather.weather
+              ? props.weather.main?.humidity
               : ""
             : ""}
           %
@@ -41,9 +48,9 @@ function CurrentWeatherCard() {
       <CardWeather>
         <WeatherIcon
           src={`http://openweathermap.org/img/w/${
-            weatherContext.weather
-              ? weatherContext.weather.weather
-                ? weatherContext.weather.weather[0].icon
+            props.weather
+              ? props.weather.weather
+                ? props.weather.weather[0].icon
                 : ""
               : ""
           }.png`}
@@ -51,49 +58,26 @@ function CurrentWeatherCard() {
         />
 
         <WeatherTitle>
-          {weatherContext.weather
-            ? weatherContext.weather.weather
-              ? weatherContext.weather.main
-                ? Math.round(weatherContext.weather.main.temp)
+          {props.weather
+            ? props.weather.weather
+              ? props.weather.main
+                ? Math.round(props.weather.main.temp)
                 : ""
               : ""
             : ""}
-          °
+          °{weatherContext.weatherUnits==='metrics'?'C':'F'}
         </WeatherTitle>
       </CardWeather>
-      <TableForecastWeather>
-        <tbody>
-          <tr>
-            <td>TUE</td>
-            <td>WED</td>
-            <td>THU</td>
-            <td>FRI</td>
-            <td>SAT</td>
-          </tr>
-          <tr>
-            <td>30°</td>
-            <td>34°</td>
-            <td>36°</td>
-            <td>34°</td>
-            <td>37°</td>
-          </tr>
-          <tr>
-            <td>17°</td>
-            <td>22°</td>
-            <td>19°</td>
-            <td>23°</td>
-            <td>19°</td>
-          </tr>
-        </tbody>
-      </TableForecastWeather>
+      <ForecastTitle>Forecast</ForecastTitle>
     </CardContainer>
   );
 }
 
 const CardContainer = styled.div`
-  padding: 10px 5px;
+  padding: 10px 5px 30px;
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 const TableForecastWeather = styled.table`
@@ -106,17 +90,17 @@ const TableForecastWeather = styled.table`
 const CardWeather = styled.div`
   display: flex;
   flex-direction: row;
-  width: 30%;
+  width: 20%;
   justify-content: space-between;
   align-items: center;
 `;
 
-const WeatherIcon = styled.img`
+export const WeatherIcon = styled.img`
   padding: 10px 5px;
   position: relative;
   align-self: flex-start;
   margin-bottom: 20px;
-  width: 120px;
+  width: 100px;
   height: 80px;
   border-radius: 50%;
   background-color: #fff;
@@ -156,14 +140,32 @@ const WeatherDescriptionTitle = styled.h3`
 
 const WeatherTitle = styled.h1`
   position: relative;
-
   color: #666;
   font-weight: 300;
   font-size: 6.59375em;
   line-height: 0.2em;
   color: #a6a8da;
 
+
   -webkit-animation: up 2s cubic-bezier(0.39, 0, 0.38, 1) 0.2s;
+`;
+
+const ForecastTitle = styled.span`
+  position: relative;
+  color: #666;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  line-height: 0.2em;
+  color: #a6a8da;
+  margin-top:30px;
+
+  -webkit-animation: up 2s cubic-bezier(0.39, 0, 0.38, 1) 0.2s;
+`;
+
+const Country = styled.span`
+  font-weight: 800;
+  font-size: 0.6em;
+  margin-left: 10px;
 `;
 
 export default CurrentWeatherCard;
