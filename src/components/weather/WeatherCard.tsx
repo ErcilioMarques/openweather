@@ -11,14 +11,28 @@ function WeatherCard() {
   const weatherContext = useContext(WeatherContext)!;
 
   let content;
+  let timeAuxArray = ['12:00:00','09:00:00"','15:00:00'];
+
 
   if (weatherContext.weatherForecast.list) {
     let arrayAux = weatherContext.weatherForecast.list;
+
+    arrayAux = arrayAux.filter(
+      (item, index, self)  => item.dt_txt.substring(11,21)===timeAuxArray[0]||
+        item.dt_txt.substring(11,21)===timeAuxArray[1]||
+        item.dt_txt.substring(11,21)===timeAuxArray[2]
+    );
+
+    console.log('arrayAux');
+    console.log(arrayAux);
+
     arrayAux = arrayAux.filter(
       (item, index, self) =>
         index ===
-        self.findIndex((t) => t.dt_txt.substring(0,10) === item.dt_txt.substring(0,10))
+        self.findIndex((t) => t.dt_txt.substring(0,10) === item.dt_txt.substring(0,10)) 
     );
+
+    
 
     content = (
       <ContainerCurrentWeatherCard>

@@ -19,13 +19,13 @@ const WeatherPreviewCard = (props: { weather: ObjectWeather }) => {
           : ""}
       </DataTitle>
       <WeatherIcon
-        src={`http://openweathermap.org/img/w/${
-          props.weather
-            ? props.weather.weather
-              ? props.weather.weather[0].icon
-              : ""
+       src={`../../assets/icons/${
+        props.weather
+          ? props.weather.weather
+            ? props.weather.weather[0].icon
             : ""
-        }.png`}
+          : ""
+      }.svg`}
         alt="wthr img"
       />
       <MinMaxWeatherContainer>

@@ -20,10 +20,11 @@ function CurrentWeatherCard(props: { weather: ObjectWeather }) {
   }
   let arrayAux = weatherContext.weatherForecast.list;
 
+
   if (arrayAux !== null)
     arrayAux = arrayAux!.filter(
       (item, index) =>
-        props.weather.dt_txt.substring(0, 10) === item.dt_txt.substring(0, 10)
+        props.weather.dt_txt.substring(0, 10) === item.dt_txt.substring(0, 10) 
     );
 
   return (
@@ -98,13 +99,13 @@ function CurrentWeatherCard(props: { weather: ObjectWeather }) {
       <CardWeatherDay>
         <CardWeather>
           <WeatherIcon
-            src={require(`../../assets/icons/${
+            src={`../../assets/icons/${
               props.weather
                 ? props.weather.weather
                   ? props.weather.weather[0].icon
                   : ""
                 : ""
-            }.svg`)}
+            }.svg`}
             alt="wthr img"
           />
           <WeatherTitle>
