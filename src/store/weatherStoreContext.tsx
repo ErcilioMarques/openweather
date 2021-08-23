@@ -18,12 +18,14 @@ export const WeatherContext = createContext({
   weatherForecast: cityWeatherObjectFOrecast,
   weatherUnits: "",
   cityQuery: "",
+  errorMessageQuerying: "",
   city: city,
   setWeather: (weather: CityWeatherInterface) => {},
   setWeatherForecast: (weatherForecast: WeatherForecastInterface) => {},
   setWeatherUnitinput: (weatherUnits: string) => {},
   setCityQueryInput: (cityQuery: string) => {},
   setCity: (city: City) => {},
+  setErrorMessageQuerying: (errorMessage: string) => {},
 });
 
 interface IProps {
@@ -36,6 +38,11 @@ export function WeatherContextProvider(props: IProps) {
   const [weatherUnits, setweatherUnits] = useState("metrics");
   const [cityQuery, setcityQuery] = useState("");
   const [city, setCityVal] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+
+  function setErrorMessageQuerying(error: string) {
+    setErrorMessage(error);
+  }
 
   function setWeather(weather: CityWeatherInterface) {
     setCityWeather(weather);
@@ -58,12 +65,14 @@ export function WeatherContextProvider(props: IProps) {
     weatherForecast: cityWeatherForecast,
     weatherUnits: weatherUnits,
     cityQuery: cityQuery,
+    errorMessageQuerying: errorMessage,
     city: city,
     setWeatherForecast: setWeatherForecast,
     setWeather: setWeather,
     setWeatherUnitinput: setWeatherUnitinput,
     setCityQueryInput: setCityQueryInput,
     setCity: setCity,
+    setErrorMessageQuerying: setErrorMessageQuerying,
   };
 
   return (

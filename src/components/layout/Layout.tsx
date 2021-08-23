@@ -14,8 +14,8 @@ function Layout(props: { children: React.ReactNode }) {
 const Main = styled.main`
   padding: 1rem;
   margin: auto;
-  width: 80vw;
-  max-width: 80vw;
+  width: 90vw;
+  max-width: 90vw;
   //background: #67bc98;
   background: #ffffff;
   height: 100vh;

@@ -20,11 +20,10 @@ function CurrentWeatherCard(props: { weather: ObjectWeather }) {
   }
   let arrayAux = weatherContext.weatherForecast.list;
 
-
   if (arrayAux !== null)
     arrayAux = arrayAux!.filter(
       (item, index) =>
-        props.weather.dt_txt.substring(0, 10) === item.dt_txt.substring(0, 10) 
+        props.weather.dt_txt.substring(0, 10) === item.dt_txt.substring(0, 10)
     );
 
   return (
@@ -43,13 +42,13 @@ function CurrentWeatherCard(props: { weather: ObjectWeather }) {
             : ""}
         </span>
         <span>
-          Wind{" "}
+          Wind{" : "}
           {props.weather
             ? props.weather.wind
               ? Math.round(mphTOkmph(props.weather.wind.speed))
               : ""
             : ""}
-          <span>km/h</span> <span>•</span> Humidity{" "}
+          <span>km/h</span> Humidity{" : "}
           {props.weather
             ? props.weather.weather
               ? props.weather.main?.humidity
@@ -59,7 +58,7 @@ function CurrentWeatherCard(props: { weather: ObjectWeather }) {
         </span>
 
         <UnitsContainer>
-          {" "}
+          Unit{" : "}
           <a
             id={"metrics"}
             onClick={() => setUnits("metrics")}
@@ -70,8 +69,6 @@ function CurrentWeatherCard(props: { weather: ObjectWeather }) {
                   : "#242323ae",
               fontWeight:
                 weatherContext.weatherUnits === "metrics" ? 900 : "lighter",
-              fontSize:
-                weatherContext.weatherUnits === "metrics" ? "1.5rem" : "1rem",
             }}
           >
             C
@@ -87,8 +84,6 @@ function CurrentWeatherCard(props: { weather: ObjectWeather }) {
                   : "#242323ae",
               fontWeight:
                 weatherContext.weatherUnits === "imperial" ? 900 : "lighter",
-              fontSize:
-                weatherContext.weatherUnits === "imperial" ? "1.5rem" : "1rem",
             }}
           >
             F
@@ -121,7 +116,6 @@ function CurrentWeatherCard(props: { weather: ObjectWeather }) {
         </CardWeather>
         <WeatherDailyChart weatherList={arrayAux}></WeatherDailyChart>
       </CardWeatherDay>
-      <WeatherChartcard></WeatherChartcard>
       <ForecastTitle>Forecast</ForecastTitle>
     </CardContainer>
   );
@@ -146,6 +140,10 @@ const UnitsContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  font-size: 1em;
+  margin: 0 20px;
+  color: #999;
+  font-weight: 300;
 
   a {
     display: inline-block;
@@ -158,25 +156,22 @@ const UnitsContainer = styled.div`
     background-color: #fff;
     text-align: center;
     transition: all 0.2s;
-    margin: 0 24px;
+    margin: 0 10px;
     color: #242323ae;
     font-weight: 300;
     border-width: 0;
 
     transition: all 0.2s linear;
   }
-  &:hover,
-  &:focus {
-    color: #357099;
-  }
 `;
 
 const CardWeatherDay = styled.div`
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
-  align-items: center;
+  align-items: left;
 `;
 
 const WeatherChartcard = styled.div`
@@ -190,7 +185,6 @@ const WeatherChartcard = styled.div`
 export const WeatherIcon = styled.img`
   padding: 10px 5px;
   position: relative;
-  align-self: flex-start;
   margin-bottom: 20px;
   width: 100px;
   height: 80px;
@@ -220,13 +214,14 @@ const WeatherDescriptionTitle = styled.div`
   -webkit-animation: up 2s cubic-bezier(0.39, 0, 0.38, 1) 0.1s;
 
   span {
-    margin: 0 24px;
+    margin: 0 20px;
     color: #999;
     font-weight: 300;
   }
 
   span span {
     margin-left: 0;
+    margin-right: 30px;
     font-size: 0.9em;
   }
 `;

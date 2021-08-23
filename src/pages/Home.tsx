@@ -7,10 +7,11 @@ import { useContext } from "react";
 import { useRef } from "react";
 import { useState } from "react";
 import weatherApiServices from "../Utils/weatherApiServices";
-import variables from "../Utils/variables";
 import axios from "axios";
 import { CityWeatherInterface } from "../Interfaces/WeatherCityInterface";
 import { WeatherForecastInterface } from "../Interfaces/WeatherForecastInterface";
+import Modal from "../components/global/Modal";
+import Backdrop from "../components/global/Backdrop";
 
 function Home() {
   const weatherContext = useContext(WeatherContext);
@@ -21,6 +22,11 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [coords, setCoords] = useState({});
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  function closeModalHandler() {
+    setModalIsOpen(false);
+  }
   //  const coordinates = weatherApiServices.getLocation();
   //  setCoords({lat: coordinates.lat, lon: coordinates.lon});
 
@@ -48,11 +54,11 @@ function Home() {
       const params = {
         q: enteredCithName,
         units: "metric",
-        appid: variables.APP_ID,
+        appid: process.env.REACT_APP_OPEN_WEATHER_ID!,
       };
 
       axios
-        .get(variables.API_URL.concat('/forecast'), { params })
+        .get(`${process.env.REACT_APP_OPEN_WEATHER_API_URL!}/forecast`, { params })
         .then((res) => {
           return res.data;
         })
@@ -65,7 +71,22 @@ function Home() {
           weatherContext.setWeather(cityWeather);
            
           setIsLoading(false);
-        });
+        }).catch(function (error) {
+          if (error.response) {
+            weatherContext.setErrorMessageQuerying(error.response.data.message);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+            alert(error.response.data.message);
+            setModalIsOpen(true);
+            weatherContext.setErrorMessageQuerying(error.response.data.message);
+            console.log(error.response.data.message);
+
+          }
+
+          setModalIsOpen(true);
+          console.log(error.config);
+        });;
     }
   }
   return (
@@ -83,9 +104,9 @@ function Home() {
         </SearchForm>
       </section>
       <WeatherCard />
-      <section>
-        <WeatherMap></WeatherMap>
-      </section>
+      {modalIsOpen && <Modal onCancel={closeModalHandler} onConfirm={closeModalHandler}/> }
+      {modalIsOpen && <Backdrop onClick={closeModalHandler}/> }
+      
     </div>
   );
 }
@@ -97,6 +118,10 @@ const SearchForm = styled.form`
   height: auto;
   margin: 0 auto;
   display: flex;
+  @media screen and (max-width: 800px) {
+    width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+  
+}
 `;
 
 const SearchInput = styled.input`
@@ -135,6 +160,10 @@ const SearchInput = styled.input`
       letter-spacing: 1.5px;
       padding-left: 0;
     }
+    @media screen and (max-width: 800px) {
+    width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+  
+}
   }
 `;
 const SearchButton = styled.button`
