@@ -5,6 +5,8 @@ import { WeatherContext } from "../../store/weatherStoreContext";
 import { useContext } from "react";
 import { CityWeatherInterface } from "../../Interfaces/WeatherCityInterface";
 import { ObjectWeather } from "../../Interfaces/WeatherForecastInterface";
+import WeatherDailyCart from "./WeatherDailyCart";
+import { WeatherConversions } from "../../Utils/WeatherConversions";
 
 function CurrentWeatherCard(props: { weather: ObjectWeather }) {
   const weatherContext = useContext(WeatherContext);
@@ -13,6 +15,17 @@ function CurrentWeatherCard(props: { weather: ObjectWeather }) {
   function mphTOkmph(mph: number) {
     return 1.60934 * mph;
   }
+  function setUnits(unit: string) {
+    console.log(unit);
+    weatherContext.setWeatherUnitinput(unit);
+  }
+  let arrayAux = weatherContext.weatherForecast.list;
+
+  if (arrayAux !== null)
+    arrayAux = arrayAux!.filter(
+      (item, index) =>
+        props.weather.dt_txt.substring(0, 10) === item.dt_txt.substring(0, 10)
+    );
 
   return (
     <CardContainer>
@@ -44,30 +57,68 @@ function CurrentWeatherCard(props: { weather: ObjectWeather }) {
             : ""}
           %
         </span>
-      </WeatherDescriptionTitle>
-      <CardWeather>
-        <WeatherIcon
-          src={`http://openweathermap.org/img/w/${
-            props.weather
-              ? props.weather.weather
-                ? props.weather.weather[0].icon
-                : ""
-              : ""
-          }.png`}
-          alt="wthr img"
-        />
 
-        <WeatherTitle>
-          {props.weather
-            ? props.weather.weather
-              ? props.weather.main
-                ? Math.round(props.weather.main.temp)
+        <UnitsContainer>
+          {" "}
+          <button
+            id={"metrics"}
+            onClick={() => setUnits("metrics")}
+            style={{
+              backgroundColor:
+                weatherContext.weatherUnits === "metrics" ? "#7b7fda" : "#fff",
+                color:
+                weatherContext.weatherUnits === "metrcis" ? '#fff':'#242323ae',
+              fontWeight:
+                weatherContext.weatherUnits === "metrics" ? 500 : "lighter",
+            }}
+          >
+            C
+          </button>
+          {"|"}
+          <button
+            id={"imperial"}
+            onClick={() => setUnits("imperial")}
+            style={{
+              backgroundColor:
+                weatherContext.weatherUnits === "imperial" ? "#7b7fda" : "#fff",
+              color:
+                weatherContext.weatherUnits === "imperial" ? '#fff':'#242323ae',
+              fontWeight:
+                weatherContext.weatherUnits === "imperial" ? 500 : "lighter",
+            }}
+          >
+            F
+          </button>
+        </UnitsContainer>
+      </WeatherDescriptionTitle>
+
+      <CardWeatherDay>
+        <CardWeather>
+          <WeatherIcon
+            src={`http://openweathermap.org/img/w/${
+              props.weather
+                ? props.weather.weather
+                  ? props.weather.weather[0].icon
+                  : ""
                 : ""
-              : ""
-            : ""}
-          °{weatherContext.weatherUnits==='metrics'?'C':'F'}
-        </WeatherTitle>
-      </CardWeather>
+            }.png`}
+            alt="wthr img"
+          />
+
+          <WeatherTitle>
+            {props.weather
+              ? props.weather.weather
+                ? props.weather.main
+                  ? WeatherConversions(props.weather.main.temp)
+                  : ""
+                : ""
+              : ""}
+            °{weatherContext.weatherUnits === "metrics" ? "C" : "F"}
+          </WeatherTitle>
+        </CardWeather>
+        <WeatherDailyCart weatherList={arrayAux}></WeatherDailyCart>
+      </CardWeatherDay>
+      <WeatherChartcard></WeatherChartcard>
       <ForecastTitle>Forecast</ForecastTitle>
     </CardContainer>
   );
@@ -88,6 +139,46 @@ const TableForecastWeather = styled.table`
 `;
 
 const CardWeather = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 20%;
+  justify-content: space-between;
+  align-items: center;
+`;
+const UnitsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    display: inline-block;
+    padding: 0.3em 1.2em;
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 2em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    color: #ffffff;
+    background-color: #fff;
+    text-align: center;
+    transition: all 0.2s;
+    margin: 0 24px;
+    color: #242323ae;
+    font-weight: 300;
+  }
+`;
+
+const CardWeatherDay = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const WeatherChartcard = styled.div`
   display: flex;
   flex-direction: row;
   width: 20%;
@@ -116,8 +207,9 @@ const CityNameTitle = styled.h2`
   -webkit-animation: up 2s cubic-bezier(0.39, 0, 0.38, 1);
 `;
 
-const WeatherDescriptionTitle = styled.h3`
+const WeatherDescriptionTitle = styled.div`
   position: relative;
+  display: flex;
   padding: 10px 0px;
   float: left;
   margin-right: 33px;
@@ -146,7 +238,6 @@ const WeatherTitle = styled.h1`
   line-height: 0.2em;
   color: #a6a8da;
 
-
   -webkit-animation: up 2s cubic-bezier(0.39, 0, 0.38, 1) 0.2s;
 `;
 
@@ -157,7 +248,7 @@ const ForecastTitle = styled.span`
   font-size: 1.5rem;
   line-height: 0.2em;
   color: #a6a8da;
-  margin-top:30px;
+  margin-top: 30px;
 
   -webkit-animation: up 2s cubic-bezier(0.39, 0, 0.38, 1) 0.2s;
 `;
