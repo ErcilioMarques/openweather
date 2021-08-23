@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import classes from "./CurrentWeatherCard.module.css";
 import { WeatherContext } from "../../store/weatherStoreContext";
 import { useContext } from "react";
-import { CityWeatherInterface } from "../../Interfaces/WeatherCityInterface";
+import variables from "../../Utils/variables";
 import { ObjectWeather } from "../../Interfaces/WeatherForecastInterface";
-import WeatherDailyCart from "./WeatherDailyCart";
+import WeatherDailyChart from "./WeatherDailyChart";
 import { WeatherConversions } from "../../Utils/WeatherConversions";
 
 function CurrentWeatherCard(props: { weather: ObjectWeather }) {
@@ -60,51 +59,54 @@ function CurrentWeatherCard(props: { weather: ObjectWeather }) {
 
         <UnitsContainer>
           {" "}
-          <button
+          <a
             id={"metrics"}
             onClick={() => setUnits("metrics")}
             style={{
-              backgroundColor:
-                weatherContext.weatherUnits === "metrics" ? "#7b7fda" : "#fff",
-                color:
-                weatherContext.weatherUnits === "metrcis" ? '#fff':'#242323ae',
+              color:
+                weatherContext.weatherUnits === "metrics"
+                  ? "#7b7fda"
+                  : "#242323ae",
               fontWeight:
-                weatherContext.weatherUnits === "metrics" ? 500 : "lighter",
+                weatherContext.weatherUnits === "metrics" ? 900 : "lighter",
+              fontSize:
+                weatherContext.weatherUnits === "metrics" ? "1.5rem" : "1rem",
             }}
           >
             C
-          </button>
+          </a>
           {"|"}
-          <button
+          <a
             id={"imperial"}
             onClick={() => setUnits("imperial")}
             style={{
-              backgroundColor:
-                weatherContext.weatherUnits === "imperial" ? "#7b7fda" : "#fff",
               color:
-                weatherContext.weatherUnits === "imperial" ? '#fff':'#242323ae',
+                weatherContext.weatherUnits === "imperial"
+                  ? "#7b7fda"
+                  : "#242323ae",
               fontWeight:
-                weatherContext.weatherUnits === "imperial" ? 500 : "lighter",
+                weatherContext.weatherUnits === "imperial" ? 900 : "lighter",
+              fontSize:
+                weatherContext.weatherUnits === "imperial" ? "1.5rem" : "1rem",
             }}
           >
             F
-          </button>
+          </a>
         </UnitsContainer>
       </WeatherDescriptionTitle>
 
       <CardWeatherDay>
         <CardWeather>
           <WeatherIcon
-            src={`http://openweathermap.org/img/w/${
+            src={require(`../../assets/icons/${
               props.weather
                 ? props.weather.weather
                   ? props.weather.weather[0].icon
                   : ""
                 : ""
-            }.png`}
+            }.svg`)}
             alt="wthr img"
           />
-
           <WeatherTitle>
             {props.weather
               ? props.weather.weather
@@ -116,7 +118,7 @@ function CurrentWeatherCard(props: { weather: ObjectWeather }) {
             °{weatherContext.weatherUnits === "metrics" ? "C" : "F"}
           </WeatherTitle>
         </CardWeather>
-        <WeatherDailyCart weatherList={arrayAux}></WeatherDailyCart>
+        <WeatherDailyChart weatherList={arrayAux}></WeatherDailyChart>
       </CardWeatherDay>
       <WeatherChartcard></WeatherChartcard>
       <ForecastTitle>Forecast</ForecastTitle>
@@ -151,22 +153,26 @@ const UnitsContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  button {
+  a {
     display: inline-block;
-    padding: 0.3em 1.2em;
-    margin: 0 0.3em 0.3em 0;
     border-radius: 2em;
     box-sizing: border-box;
     text-decoration: none;
     font-family: "Roboto", sans-serif;
     font-weight: 300;
-    color: #ffffff;
     background-color: #fff;
     text-align: center;
     transition: all 0.2s;
     margin: 0 24px;
     color: #242323ae;
     font-weight: 300;
+    border-width: 0;
+
+    transition: all 0.2s linear;
+  }
+  &:hover,
+  &:focus {
+    color: #357099;
   }
 `;
 

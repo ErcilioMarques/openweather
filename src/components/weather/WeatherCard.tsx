@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import CurrentWeatherCard from "./CurrentWeatherCard";
-import OtherDaysWeatherCard from "./OtherDaysWeatherCard";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import { WeatherContext } from "../../store/weatherStoreContext";
 import { useContext } from "react";
-import { Weather } from "../../Interfaces/WeatherCityInterface";
-import { ObjectWeather } from "../../Interfaces/WeatherForecastInterface";
 import WeatherPreviewCard from "./WeatherPreviewCard";
 
 function WeatherCard() {
@@ -36,7 +33,7 @@ function WeatherCard() {
             </TabPanel>
           );
         })}
-        
+
         <TabList>
           {arrayAux!.map((weatherForecast, index) => {
             return <Tab><WeatherPreviewCard weather={weatherForecast}></WeatherPreviewCard></Tab>;

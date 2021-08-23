@@ -2,8 +2,9 @@ import React, { useContext } from "react";
 import { Line } from "react-chartjs-2";
 import { ObjectWeather } from "../../Interfaces/WeatherForecastInterface";
 import { WeatherContext } from "../../store/weatherStoreContext";
+import { WeatherConversions } from "../../Utils/WeatherConversions";
 
-function WeatherDailyCart(props: { weatherList: ObjectWeather[] }) {
+function WeatherDailyChart(props: { weatherList: ObjectWeather[] }) {
   const weatherContext = useContext(WeatherContext);
 
   const data = {
@@ -14,7 +15,7 @@ function WeatherDailyCart(props: { weatherList: ObjectWeather[] }) {
       {
         label: `Weather °${weatherContext.weatherUnits === "metrics" ? "C" : "F"}`,
         data: props.weatherList.map(
-            (item:ObjectWeather) => item.main.temp)
+            (item:ObjectWeather) => WeatherConversions(item.main.temp))
         ,
         fill: true,
         backgroundColor:  '#a6a8da',
@@ -30,4 +31,4 @@ function WeatherDailyCart(props: { weatherList: ObjectWeather[] }) {
   );
 }
 
-export default WeatherDailyCart;
+export default WeatherDailyChart;

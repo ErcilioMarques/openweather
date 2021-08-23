@@ -4,6 +4,7 @@ import { WeatherContext } from "../../store/weatherStoreContext";
 import { useContext } from "react";
 import { ObjectWeather } from "../../Interfaces/WeatherForecastInterface";
 import { WeatherIcon } from "./CurrentWeatherCard";
+import { WeatherConversions } from "../../Utils/WeatherConversions";
 
 const WeatherPreviewCard = (props: { weather: ObjectWeather }) => {
   const weatherContext = useContext(WeatherContext);
@@ -31,7 +32,7 @@ const WeatherPreviewCard = (props: { weather: ObjectWeather }) => {
         <span>
           {props.weather
             ? props.weather.main
-              ? props.weather.main.temp_max
+              ? WeatherConversions(props.weather.main.temp_max)
               : ""
             : ""}
           °{weatherContext.weatherUnits === "metrics" ? "C" : "F"}
@@ -39,7 +40,7 @@ const WeatherPreviewCard = (props: { weather: ObjectWeather }) => {
         <span>
           {props.weather
             ? props.weather.weather
-              ? props.weather.main.temp_min
+              ? WeatherConversions(props.weather.main.temp_min)
               : ""
             : ""}
           °{weatherContext.weatherUnits === "metrics" ? "C" : "F"}
