@@ -83,7 +83,6 @@ function Home() {
         </SearchForm>
       </section>
       <WeatherCard />
-
       <section>
         <WeatherMap></WeatherMap>
       </section>

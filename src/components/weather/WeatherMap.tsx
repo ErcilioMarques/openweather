@@ -2,6 +2,24 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Variables from "../../Utils/variables";
 import WeatherApiServices from "../../Utils/weatherApiServices";
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { useCallback } from "react";
+
+
+const containerStyle = {
+  width: '80vw',
+  height: '50vh'
+};
+
+// const center = {
+//   lat: -25.9653,
+//   lng: 32.5892
+// };
+
+const center = {
+  lat: -45.421532,
+  lng: -72.697189
+};
 
 function WeatherMap() {
   const [units, setUnits] = useState("metrics");
@@ -32,11 +50,34 @@ function WeatherMap() {
   //     });
   // }, []);
 
-  return (
-    <div>
-      <div></div>
-    </div>
-  );
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: "AIzaSyDJJ2Pj5gQm0znu4wc5ltkRe9LnBY45vHQ"
+  })
+
+  const [map, setMap] = useState(null)
+
+  const onLoad = useCallback(function callback(map) {
+    const bounds = new window.google.maps.LatLngBounds();
+    map.fitBounds(bounds);
+    setMap(map)
+  }, [])
+
+  const onUnmount = useCallback(function callback(map) {
+    setMap(null)
+  }, [])
+
+  return isLoaded ? (
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        zoom={10}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+      >
+        { /* Child components, such as markers, info windows, etc. */ }
+        <></>
+      </GoogleMap>
+  ) : <></>
 }
 
 export default WeatherMap;
