@@ -1,4 +1,4 @@
-import React, { Dispatch } from "react";
+import React, { Dispatch, useEffect } from "react";
 import styled from "styled-components";
 import WeatherCard from "../components/weather/WeatherCard";
 import WeatherMap from "../components/weather/WeatherMap";
@@ -19,9 +19,23 @@ function Home() {
   const cityWeatherForecast: WeatherForecastInterface = {};
   const [weather, setWeatherData] = useState<CityWeatherInterface>(cityWeather);
   const [isLoading, setIsLoading] = useState(true);
+  const [coords, setCoords] = useState({});
 
-  // const coordinates = weatherApiServices.getLocation();
-  // setCoord({lat: coordinates.lat, lon: coordinates.lon});
+  //  const coordinates = weatherApiServices.getLocation();
+  //  setCoords({lat: coordinates.lat, lon: coordinates.lon});
+
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   fetch(
+  //     "https://react-getting-data-a7563-default-rtdb.firebaseio.com/meetups.json"
+  //   )
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //     });
+  // }, []);
+
 
   function submitHandler(event: { preventDefault: () => void }) {
     event.preventDefault();
@@ -43,20 +57,6 @@ function Home() {
           return res.data;
         })
         .then((data) => {
-
-          // cityWeather.base = data.base;
-          // cityWeather.clouds = data.clouds;
-          // cityWeather.cod = data.cod;
-          // cityWeather.coord = data.coord;
-          // cityWeather.dt = data.dt;
-          // cityWeather.id = data.base;
-          // cityWeather.main = data.main;
-          // cityWeather.name = data.name;
-          // cityWeather.sys = data.sys;
-          // cityWeather.timezone = data.timezone;
-          // cityWeather.visibility = data.visibility;
-          // cityWeather.weather = data.weather;
-          // cityWeather.wind = data.wind;
         
           console.log(data);
 

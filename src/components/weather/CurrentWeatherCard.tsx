@@ -134,13 +134,6 @@ const CardContainer = styled.div`
   width: 100%;
 `;
 
-const TableForecastWeather = styled.table`
-  position: relative;
-  top: 10px;
-  width: 100%;
-  text-align: center;
-`;
-
 const CardWeather = styled.div`
   display: flex;
   flex-direction: row;
