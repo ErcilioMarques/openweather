@@ -156,6 +156,7 @@ const UnitsContainer = styled.div`
 
   a {
     display: inline-block;
+    cursor: pointer;
     border-radius: 2em;
     box-sizing: border-box;
     text-decoration: none;
