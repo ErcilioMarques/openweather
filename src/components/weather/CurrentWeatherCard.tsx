@@ -134,6 +134,12 @@ const CardWeather = styled.div`
   width: 20%;
   justify-content: space-between;
   align-items: center;
+
+  @media screen and (max-width: 900px) {
+    width: 89vw;
+    align-items: center;
+  
+  }
 `;
 const UnitsContainer = styled.div`
   display: flex;
@@ -191,6 +197,12 @@ export const WeatherIcon = styled.img`
   border-radius: 50%;
   background-color: #fff;
   -webkit-animation: up 2s cubic-bezier(0.39, 0, 0.38, 1) 0.2s;
+
+  -webkit-animation: up 2s cubic-bezier(0.39, 0, 0.38, 1) 0.2s;
+  @media screen and (max-width: 900px) {
+    align-self: center;
+  }
+  
 `;
 
 const CityNameTitle = styled.h2`
@@ -235,6 +247,10 @@ const WeatherTitle = styled.h1`
   color: #a6a8da;
 
   -webkit-animation: up 2s cubic-bezier(0.39, 0, 0.38, 1) 0.2s;
+  @media screen and (max-width: 900px) {
+    width: 89vw;
+    align-self: center;
+  }
 `;
 
 const ForecastTitle = styled.span`
