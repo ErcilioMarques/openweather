@@ -42,7 +42,6 @@ function Home() {
   //     });
   // }, []);
 
-
   function submitHandler(event: { preventDefault: () => void }) {
     event.preventDefault();
 
@@ -58,81 +57,97 @@ function Home() {
       };
 
       axios
-        .get(`${process.env.REACT_APP_OPEN_WEATHER_API_URL!}/forecast`, { params })
+        .get(`${process.env.REACT_APP_OPEN_WEATHER_API_URL!}/forecast`, {
+          params,
+        })
         .then((res) => {
           return res.data;
         })
         .then((data) => {
-        
           console.log(data);
 
           weatherContext.setWeatherForecast(data);
           weatherContext.setCity(data.city);
           weatherContext.setWeather(cityWeather);
-           
+
           setIsLoading(false);
-        }).catch(function (error) {
+        })
+        .catch(function (error) {
           if (error.response) {
             weatherContext.setErrorMessageQuerying(error.response.data.message);
           } else {
             // Something happened in setting up the request that triggered an Error
-            console.log('Error', error.message);
+            console.log("Error", error.message);
             alert(error.response.data.message);
             setModalIsOpen(true);
             weatherContext.setErrorMessageQuerying(error.response.data.message);
             console.log(error.response.data.message);
-
           }
 
           setModalIsOpen(true);
           console.log(error.config);
-        });;
+        });
     }
   }
   return (
     <div>
       <section>
-        <SearchForm onSubmit={submitHandler}>
-          <SearchInput
-            placeholder="Enter a city"
-            type="text"
-            required
-            id="cityNameInput"
-            ref={cityNameInputRef}
-          ></SearchInput>
-          <SearchButton></SearchButton>
-        </SearchForm>
+        <SearchFormContainer>
+          <SearchForm onSubmit={submitHandler}>
+            <SearchInput
+              placeholder="Enter a city"
+              type="text"
+              required
+              id="cityNameInput"
+              ref={cityNameInputRef}
+            ></SearchInput>
+            <SearchButton></SearchButton>
+          </SearchForm>
+        </SearchFormContainer>
       </section>
       <WeatherCard />
-      {modalIsOpen && <Modal onCancel={closeModalHandler} onConfirm={closeModalHandler}/> }
-      {modalIsOpen && <Backdrop onClick={closeModalHandler}/> }
-      
+      {modalIsOpen && (
+        <Modal onCancel={closeModalHandler} onConfirm={closeModalHandler} />
+      )}
+      {modalIsOpen && <Backdrop onClick={closeModalHandler} />}
     </div>
   );
 }
 
-const SearchForm = styled.form`
-  padding: 1rem 2rem;
+const SearchFormContainer = styled.div`
+  padding: 1rem;
   margin-top: 4px;
-  width: 100vh;
+  width: 100%;
   height: auto;
   margin: 0 auto;
-  display: flex;
-  @media screen and (max-width: 800px) {
-    width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
-  
-}
+  display: inline-flex;
+  align-items: center;
+  justify-items: center;
+  flex-wrap: nowrap;
+`;
+
+const SearchForm = styled.form`
+  padding: 1rem;
+  margin-top: 4px;
+  height: auto;
+  width: 70%;
+  margin: 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-items: center;
+  flex-wrap: nowrap;
+  @media screen and (max-width: 900px) {
+    width: 100%;
+  }
 `;
 
 const SearchInput = styled.input`
-  width: 45vw;
-  padding: 12px;
-  padding-right: 3rem;
+  flex-grow: 2;
+  padding: 20px;
   background-color: transparent;
   transition: transform 250ms ease-in-out;
   font-size: 18px;
   line-height: 18px;
-
   color: #575756;
   background-color: transparent;
   border-radius: 50px;
@@ -160,10 +175,9 @@ const SearchInput = styled.input`
       letter-spacing: 1.5px;
       padding-left: 0;
     }
-    @media screen and (max-width: 800px) {
-    width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
-  
-}
+  }
+  @media screen and (max-width: 900px) {
+    width: 100%;
   }
 `;
 const SearchButton = styled.button`
@@ -171,9 +185,9 @@ const SearchButton = styled.button`
   border: none;
   outline: none;
   width: 3rem;
-  padding: 18px 24px;
-  margin-left: -4rem;
+  margin-left: -3.8rem;
   height: 3rem;
+  position: relative;
   color: white;
   background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
   background-repeat: no-repeat;

@@ -95,7 +95,7 @@ export const CardContainer = styled.div`
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 
   @media screen and (max-width: 900px) {
-    width: 100vw; /* The width is 100%, when the viewport is 800px or smaller */
+    width: 100%; 
 
 }
 `;

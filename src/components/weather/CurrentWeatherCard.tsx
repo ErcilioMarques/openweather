@@ -140,6 +140,7 @@ const CardWeather = styled.div`
     align-items: center;
   
   }
+  
 `;
 const UnitsContainer = styled.div`
   display: flex;
