@@ -131,7 +131,7 @@ const CardContainer = styled.div`
 const CardWeather = styled.div`
   display: flex;
   flex-direction: row;
-  width: 20%;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
 
@@ -174,11 +174,15 @@ const UnitsContainer = styled.div`
 
 const CardWeatherDay = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
   align-items: left;
+
+  @media screen and (max-width: 900px) {
+    flex-wrap: wrap;
+  }
 `;
 
 const WeatherChartcard = styled.div`
