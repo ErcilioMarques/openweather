@@ -1,32 +1,54 @@
 import { createContext, useState } from "react";
-import { CityWeatherInterface, Weather } from "../Interfaces/WeatherCityInterface";
+import { CityWeatherInterface } from "../Interfaces/WeatherCityInterface";
+import {
+  WeatherForecastInterface,
+  City,
+} from "../Interfaces/WeatherForecastInterface";
 
 const cityWeatherObject: CityWeatherInterface = {};
+const cityWeatherObjectFOrecast: WeatherForecastInterface = {};
+const city: City = {};
 
 interface IMyComponentProps {
   Component: React.ComponentType;
 }
 
 export const WeatherContext = createContext({
-  weather:cityWeatherObject,
-  weatherUnits: '',
-  cityQuery: '',
+  weather: cityWeatherObject,
+  weatherForecast: cityWeatherObjectFOrecast,
+  weatherUnits: "",
+  cityQuery: "",
+  errorMessageQuerying: "",
+  city: city,
   setWeather: (weather: CityWeatherInterface) => {},
+  setWeatherForecast: (weatherForecast: WeatherForecastInterface) => {},
   setWeatherUnitinput: (weatherUnits: string) => {},
   setCityQueryInput: (cityQuery: string) => {},
+  setCity: (city: City) => {},
+  setErrorMessageQuerying: (errorMessage: string) => {},
 });
 
-  interface IProps {
-    children: {};
-  }
-  
+interface IProps {
+  children: {};
+}
+
 export function WeatherContextProvider(props: IProps) {
   const [cityWeather, setCityWeather] = useState({});
-  const [weatherUnits, setweatherUnits] = useState('metrics');
-  const [cityQuery, setcityQuery] = useState('');
+  const [cityWeatherForecast, setcityWeatherForecast] = useState({});
+  const [weatherUnits, setweatherUnits] = useState("metrics");
+  const [cityQuery, setcityQuery] = useState("");
+  const [city, setCityVal] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+
+  function setErrorMessageQuerying(error: string) {
+    setErrorMessage(error);
+  }
 
   function setWeather(weather: CityWeatherInterface) {
     setCityWeather(weather);
+  }
+  function setWeatherForecast(weatherForecast: WeatherForecastInterface) {
+    setcityWeatherForecast(weatherForecast);
   }
   function setWeatherUnitinput(weatherUnits: string) {
     setweatherUnits(weatherUnits);
@@ -34,14 +56,23 @@ export function WeatherContextProvider(props: IProps) {
   function setCityQueryInput(cityQuery: string) {
     setcityQuery(cityQuery);
   }
+  function setCity(city: City) {
+    setCityVal(city);
+  }
 
   const context = {
     weather: cityWeather,
+    weatherForecast: cityWeatherForecast,
     weatherUnits: weatherUnits,
     cityQuery: cityQuery,
+    errorMessageQuerying: errorMessage,
+    city: city,
+    setWeatherForecast: setWeatherForecast,
     setWeather: setWeather,
     setWeatherUnitinput: setWeatherUnitinput,
     setCityQueryInput: setCityQueryInput,
+    setCity: setCity,
+    setErrorMessageQuerying: setErrorMessageQuerying,
   };
 
   return (
@@ -50,4 +81,3 @@ export function WeatherContextProvider(props: IProps) {
     </WeatherContext.Provider>
   );
 }
-

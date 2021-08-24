@@ -1,4 +1,4 @@
-import React, { Dispatch } from "react";
+import React, { Dispatch, useEffect } from "react";
 import styled from "styled-components";
 import WeatherCard from "../components/weather/WeatherCard";
 import WeatherMap from "../components/weather/WeatherMap";
@@ -7,19 +7,41 @@ import { useContext } from "react";
 import { useRef } from "react";
 import { useState } from "react";
 import weatherApiServices from "../Utils/weatherApiServices";
-import variables from "../Utils/variables";
 import axios from "axios";
 import { CityWeatherInterface } from "../Interfaces/WeatherCityInterface";
+import { WeatherForecastInterface } from "../Interfaces/WeatherForecastInterface";
+import Modal from "../components/global/Modal";
+import Backdrop from "../components/global/Backdrop";
 
 function Home() {
   const weatherContext = useContext(WeatherContext);
   const cityNameInputRef = useRef<HTMLInputElement>(null);
   const cityWeather: CityWeatherInterface = {};
+  const cityWeatherForecast: WeatherForecastInterface = {};
   const [weather, setWeatherData] = useState<CityWeatherInterface>(cityWeather);
   const [isLoading, setIsLoading] = useState(true);
+  const [coords, setCoords] = useState({});
 
-  // const coordinates = weatherApiServices.getLocation();
-  // setCoord({lat: coordinates.lat, lon: coordinates.lon});
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  function closeModalHandler() {
+    setModalIsOpen(false);
+  }
+  //  const coordinates = weatherApiServices.getLocation();
+  //  setCoords({lat: coordinates.lat, lon: coordinates.lon});
+
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   fetch(
+  //     "https://react-getting-data-a7563-default-rtdb.firebaseio.com/meetups.json"
+  //   )
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //     });
+  // }, []);
+
 
   function submitHandler(event: { preventDefault: () => void }) {
     event.preventDefault();
@@ -32,35 +54,39 @@ function Home() {
       const params = {
         q: enteredCithName,
         units: "metric",
-        appid: variables.APP_ID,
+        appid: process.env.REACT_APP_OPEN_WEATHER_ID!,
       };
 
       axios
-        .get(variables.API_URL, { params })
+        .get(`${process.env.REACT_APP_OPEN_WEATHER_API_URL!}/forecast`, { params })
         .then((res) => {
           return res.data;
         })
         .then((data) => {
-          cityWeather.base = data.base;
-          cityWeather.clouds = data.clouds;
-          cityWeather.cod = data.cod;
-          cityWeather.coord = data.coord;
-          cityWeather.dt = data.dt;
-          cityWeather.id = data.base;
-          cityWeather.main = data.main;
-          cityWeather.name = data.name;
-          cityWeather.sys = data.sys;
-          cityWeather.timezone = data.timezone;
-          cityWeather.visibility = data.visibility;
-          cityWeather.weather = data.weather;
-          cityWeather.wind = data.wind;
         
-          console.log(weather);
+          console.log(data);
 
+          weatherContext.setWeatherForecast(data);
+          weatherContext.setCity(data.city);
           weatherContext.setWeather(cityWeather);
            
           setIsLoading(false);
-        });
+        }).catch(function (error) {
+          if (error.response) {
+            weatherContext.setErrorMessageQuerying(error.response.data.message);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+            alert(error.response.data.message);
+            setModalIsOpen(true);
+            weatherContext.setErrorMessageQuerying(error.response.data.message);
+            console.log(error.response.data.message);
+
+          }
+
+          setModalIsOpen(true);
+          console.log(error.config);
+        });;
     }
   }
   return (
@@ -78,10 +104,9 @@ function Home() {
         </SearchForm>
       </section>
       <WeatherCard />
-
-      <section>
-        <WeatherMap></WeatherMap>
-      </section>
+      {modalIsOpen && <Modal onCancel={closeModalHandler} onConfirm={closeModalHandler}/> }
+      {modalIsOpen && <Backdrop onClick={closeModalHandler}/> }
+      
     </div>
   );
 }
@@ -93,6 +118,10 @@ const SearchForm = styled.form`
   height: auto;
   margin: 0 auto;
   display: flex;
+  @media screen and (max-width: 800px) {
+    width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+  
+}
 `;
 
 const SearchInput = styled.input`
@@ -131,6 +160,10 @@ const SearchInput = styled.input`
       letter-spacing: 1.5px;
       padding-left: 0;
     }
+    @media screen and (max-width: 800px) {
+    width: 100%; /* The width is 100%, when the viewport is 800px or smaller */
+  
+}
   }
 `;
 const SearchButton = styled.button`

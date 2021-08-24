@@ -30,6 +30,10 @@ const Nav = styled.div`
   align-items: center;
   flex-wrap: wrap;
   background: #b0ccc1;
+  @media screen and (max-width: 900px) {
+    width: 100vw; /* The width is 100%, when the viewport is 800px or smaller */
+
+}
 `;
 
 const Logo = styled.a`
@@ -58,7 +62,7 @@ const Humberguer = styled.div`
     margin-bottom: 4px;
     border-radius: 5px;
   }
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     display: flex;
   }
 `;
@@ -73,7 +77,7 @@ const Menu = styled.div<MenuProps>`
   align-items: center;
   position: relative;
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     overflow: hidden;
     flex-direction: column;
     width: 100%;
