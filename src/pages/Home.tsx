@@ -20,75 +20,72 @@ function Home() {
   const cityWeatherForecast: WeatherForecastInterface = {};
   const [weather, setWeatherData] = useState<CityWeatherInterface>(cityWeather);
   const [isLoading, setIsLoading] = useState(true);
-  const [coords, setCoords] = useState({});
-
+  const [requesWeatherByCoordinates, setRequestWeatherByCoordinates] = useState(
+    {
+      status: 404,
+      data: {},
+      error: "",
+    }
+  );
+  const [requesWeatherByCitName, setRequesWeatherByCitName] = useState({
+    status: 404,
+    data: {},
+    error: "",
+  });
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [enteredCithName, setEnteredCithName] = useState("");
 
   function closeModalHandler() {
     setModalIsOpen(false);
   }
-  //  const coordinates = weatherApiServices.getLocation();
-  //  setCoords({lat: coordinates.lat, lon: coordinates.lon});
-
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   fetch(
-  //     "https://react-getting-data-a7563-default-rtdb.firebaseio.com/meetups.json"
-  //   )
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //     });
-  // }, []);
 
   function submitHandler(event: { preventDefault: () => void }) {
     event.preventDefault();
 
     const { current } = cityNameInputRef;
     if (current !== null) {
-      const enteredCithName = current.value;
-      weatherContext.setCityQueryInput(enteredCithName);
-
-      const params = {
-        q: enteredCithName,
-        units: "metric",
-        appid: process.env.REACT_APP_OPEN_WEATHER_ID!,
-      };
-
-      axios
-        .get(`${process.env.REACT_APP_OPEN_WEATHER_API_URL!}/forecast`, {
-          params,
-        })
-        .then((res) => {
-          return res.data;
-        })
-        .then((data) => {
-          console.log(data);
-
-          weatherContext.setWeatherForecast(data);
-          weatherContext.setCity(data.city);
-          weatherContext.setWeather(cityWeather);
-
-          setIsLoading(false);
-        })
-        .catch(function (error) {
-          if (error.response) {
-            weatherContext.setErrorMessageQuerying(error.response.data.message);
-          } else {
-            // Something happened in setting up the request that triggered an Error
-            console.log("Error", error.message);
-            alert(error.response.data.message);
-            setModalIsOpen(true);
-            weatherContext.setErrorMessageQuerying(error.response.data.message);
-            console.log(error.response.data.message);
-          }
-
-          setModalIsOpen(true);
-          console.log(error.config);
-        });
+      setEnteredCithName(current.value);
+      weatherContext.setCityQueryInput(current.value);
     }
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      // const req = await weatherApiServices.getWeatherByCoordinates();
+      // setRequestWeatherByCoordinates(req);
+      const req2 = await weatherApiServices.getCityWeatherForecast({
+        cityQuery: enteredCithName,
+      });
+      setRequesWeatherByCitName(req2);
+
+      if (enteredCithName !== "") {
+        let request = {
+          status: 404,
+          data: {},
+          error:
+            "something we dont know yet went wrong, please try again later...",
+        };
+
+        if (requesWeatherByCoordinates.status === 200) {
+          request = requesWeatherByCoordinates;
+        } else if (req2.status === 200) {
+          request = req2;
+        }
+
+        if (request.status === 200) {
+          let data: WeatherForecastInterface;
+          data = request.data;
+          weatherContext.setWeatherForecast(data);
+          weatherContext.setCity(data!.city!);
+        } else {
+          weatherContext.setErrorMessageQuerying(request!.error!);
+          setModalIsOpen(true);
+        }
+      }
+    };
+    fetchData();
+  }, [enteredCithName]);
+
   return (
     <div>
       <section>

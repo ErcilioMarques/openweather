@@ -169,6 +169,7 @@ function WeatherMap() {
           options={options}
           mapTypeId={"ImageMapType"}
         >
+          
           <Marker
             key={markerMap.length}
             title={"Test"}
