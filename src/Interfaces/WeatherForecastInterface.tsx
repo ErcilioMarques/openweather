@@ -43,7 +43,6 @@ export interface ObjectWeather {
   wind: Wind;
   visibility: number;
   pop: number;
-  rain: Rain;
   sys: Sys;
   dt_txt: string;
 }

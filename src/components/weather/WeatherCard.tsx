@@ -10,7 +10,7 @@ import { checkIfDateIsToday } from "../../Utils/Utils";
 import WeatherMap from "./WeatherMap";
 
 function WeatherCard() {
-  const weatherContext = useContext(WeatherContext)!;
+  const weatherContext = useContext(WeatherContext);
 
   let content;
   let timeAuxArray = ["12:00:00", '09:00:00"', "15:00:00"];
@@ -84,7 +84,7 @@ const Container = styled.div`
   align-items: left;
   height: auto;
   margin: 0 auto;
-  margin-top: 5%;
+  margin-top: 5px;
   padding: 5px 30px;
   border-radius: 3px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);

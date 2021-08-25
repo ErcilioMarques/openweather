@@ -24,20 +24,21 @@ const Navbar = () => {
 };
 
 const Nav = styled.div`
-  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   background: #b0ccc1;
+  width: 100vw; 
+
   @media screen and (max-width: 900px) {
-    width: 100vw; /* The width is 100%, when the viewport is 800px or smaller */
+    width: 100vw; 
 
 }
 `;
 
 const Logo = styled.a`
-padding:2rem 0;
+padding:2rem 2rem;
 color: #7b7fda;
 text-decoration:none;
 font-weight:800;
