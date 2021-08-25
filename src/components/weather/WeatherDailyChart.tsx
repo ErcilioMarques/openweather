@@ -9,13 +9,13 @@ function WeatherDailyChart(props: { weatherList: ObjectWeather[] }) {
 
   const data = {
     labels: props.weatherList.map(
-        (item:ObjectWeather) => item.dt_txt.substring(10,item.dt_txt.length))
+        (item:ObjectWeather) => item.dt_txt!.substring(10,item.dt_txt!.length))
     ,
     datasets: [
       {
         label: `Weather °${weatherContext.weatherUnits === "metrics" ? "C" : "F"}`,
         data: props.weatherList.map(
-            (item:ObjectWeather) => WeatherConversions(item.main.temp))
+            (item:ObjectWeather) => WeatherConversions(item!.main!.temp))
         ,
         fill: true,
         backgroundColor:  '#a6a8da',
