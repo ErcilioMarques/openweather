@@ -14,7 +14,7 @@ const WeatherPreviewCard = (props: { weather: ObjectWeather }) => {
       <DataTitle>
         {props.weather
           ? props.weather.main
-            ? props.weather.dt_txt.substr(0, 10)
+            ? props!.weather!.dt_txt!.substr(0, 10)
             : ""
           : ""}
       </DataTitle>
@@ -40,7 +40,7 @@ const WeatherPreviewCard = (props: { weather: ObjectWeather }) => {
         <span>
           {props.weather
             ? props.weather.weather
-              ? WeatherConversions(props.weather.main.temp_min)
+              ? WeatherConversions(props!.weather!.main!.temp_min)
               : ""
             : ""}
           °{weatherContext.weatherUnits === "metrics" ? "C" : "F"}

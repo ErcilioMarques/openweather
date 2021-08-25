@@ -76,42 +76,7 @@ function WeatherMap() {
 
 
   const [center, setCenter] = useState({ lat: -25.9653, lng: 32.5892 });
-    const [cityWeather, setcityWeather] = useState({
-      dt: 1629817200,
-      main: {
-        temp: 26.5,
-        feels_like: 26.5,
-        temp_min: 26.5,
-        temp_max: 30.6,
-        pressure: 1017,
-        sea_level: 1017,
-        grnd_level: 930,
-        humidity: 37,
-        temp_kf: -4.1,
-      },
-      weather: [
-        {
-          id: 800,
-          main: "Clear",
-          description: "clear sky",
-          icon: "01d",
-        },
-      ],
-      clouds: {
-        all: 0,
-      },
-      wind: {
-        speed: 1.31,
-        deg: 326,
-        gust: 2.14,
-      },
-      visibility: 10000,
-      pop: 0,
-      sys: {
-        pod: "d",
-      },
-      dt_txt: "2021-08-24 15:00:00",
-    });
+    const [cityWeather, setcityWeather] = useState({});
     const weatherContext = useContext(WeatherContext);
 
     useEffect(() => {
@@ -153,7 +118,7 @@ function WeatherMap() {
           
           <Marker
             key={markerMap.length}
-            title={"Test"}
+            title={"click to check the weather"}
             position={center}
             onClick={() => setClicked(!clicked)}
           />

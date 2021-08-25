@@ -11,10 +11,10 @@ export interface Main {
 }
 
 export interface Weather {
-  id: number;
-  main: string;
-  description: string;
-  icon: string;
+  id?: number;
+  main?: string;
+  description?: string;
+  icon?: string;
 }
 
 export interface Clouds {
@@ -36,15 +36,15 @@ export interface Sys {
 }
 
 export interface ObjectWeather {
-  dt: number;
-  main: Main;
-  weather: Weather[];
-  clouds: Clouds;
-  wind: Wind;
-  visibility: number;
-  pop: number;
-  sys: Sys;
-  dt_txt: string;
+  dt?: number;
+  main?: Main;
+  weather?: Weather[];
+  clouds?: Clouds;
+  wind?: Wind;
+  visibility?: number;
+  pop?: number;
+  sys?: Sys;
+  dt_txt?: string;
 }
 
 export interface Coord {

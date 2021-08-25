@@ -20,10 +20,10 @@ function WeatherCard() {
 
     arrayAux = arrayAux.filter(
       (item) =>
-        item.dt_txt.substring(11, 21) === timeAuxArray[0] ||
-        item.dt_txt.substring(11, 21) === timeAuxArray[1] ||
-        item.dt_txt.substring(11, 21) === timeAuxArray[2] ||
-        checkIfDateIsToday(item.dt_txt.substring(0, 10))
+        item.dt_txt!.substring(11, 21) === timeAuxArray[0] ||
+        item.dt_txt!.substring(11, 21) === timeAuxArray[1] ||
+        item.dt_txt!.substring(11, 21) === timeAuxArray[2] ||
+        checkIfDateIsToday(item.dt_txt!.substring(0, 10))
     );
 
     console.log("arrayAux");
@@ -33,7 +33,7 @@ function WeatherCard() {
       (item, index, self) =>
         index ===
         self.findIndex(
-          (t) => t.dt_txt.substring(0, 10) === item.dt_txt.substring(0, 10)
+          (t) => t.dt_txt!.substring(0, 10) === item.dt_txt!.substring(0, 10)
         )
     );
 
