@@ -35,6 +35,7 @@ function Home() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [enteredCithName, setEnteredCithName] = useState("");
 
+  
   function closeModalHandler() {
     setModalIsOpen(false);
   }
@@ -51,8 +52,6 @@ function Home() {
 
   useEffect(() => {
     const fetchData = async () => {
-      // const req = await weatherApiServices.getWeatherByCoordinates();
-      // setRequestWeatherByCoordinates(req);
       const req2 = await weatherApiServices.getCityWeatherForecast({
         cityQuery: enteredCithName,
       });
@@ -66,11 +65,7 @@ function Home() {
             "something we dont know yet went wrong, please try again later...",
         };
 
-        if (requesWeatherByCoordinates.status === 200) {
-          request = requesWeatherByCoordinates;
-        } else if (req2.status === 200) {
-          request = req2;
-        }
+        request = req2;
 
         if (request.status === 200) {
           let data: WeatherForecastInterface;
@@ -78,7 +73,7 @@ function Home() {
           weatherContext.setWeatherForecast(data);
           weatherContext.setCity(data!.city!);
         } else {
-          weatherContext.setErrorMessageQuerying(request!.error!);
+          weatherContext.setErrorMessageQuerying(req2!.error!);
           setModalIsOpen(true);
         }
       }
