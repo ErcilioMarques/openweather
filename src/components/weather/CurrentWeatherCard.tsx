@@ -241,6 +241,11 @@ const WeatherDescriptionTitle = styled.div`
     margin-right: 30px;
     font-size: 0.9em;
   }
+
+  @media screen and (max-width: 900px) {
+    margin-right: 0;
+
+  }
 `;
 
 const WeatherTitle = styled.h1`

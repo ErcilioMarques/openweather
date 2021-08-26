@@ -26,7 +26,7 @@ function WeatherDailyChart(props: { weatherList: ObjectWeather[] }) {
 
   return (
     <div>
-      <Line width={600} height={300} data={data} />
+      <Line id='dailyChart' width={600} height={300} data={data} className='dailChart col-12 col-sm-6 col-lg-3'/>
     </div>
   );
 }

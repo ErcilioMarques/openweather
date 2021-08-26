@@ -28,27 +28,32 @@ const Nav = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  background: #b0ccc1;
-  width: 100vw; 
+  /* background: #b0ccc1; */
+  background: #334257;
 
-  @media screen and (max-width: 900px) {
-    width: 100vw; 
-
-}
+  @media only screen and (max-width: 900px) {
+    [class*="col-"] {
+      width: 100%;
+    }
+  }
 `;
 
 const Logo = styled.a`
-padding:2rem 2rem;
-color: #7b7fda;
-text-decoration:none;
-font-weight:800;
-font-size:1.9rem;
+  padding: 2rem 2rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.9rem;
 
-span{
+  &:hover {
+    color: #aaacdd;
+  }
+
+  span {
     font-weight: 300;
-    font-size:1.3rem;
+    font-size: 1.3rem;
     margin-left: 0;
-}
+  }
 `;
 
 const Humberguer = styled.div`
@@ -59,12 +64,13 @@ const Humberguer = styled.div`
   span {
     height: 2px;
     width: 25px;
-    background-color: #7b7fda;
+    background-color: #fff;
     margin-bottom: 4px;
     border-radius: 5px;
   }
   @media (max-width: 900px) {
     display: flex;
+    margin-right: 10px;
   }
 `;
 
@@ -92,14 +98,14 @@ const MenuLink = styled.a`
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-  color: #7b7fda;
+  color: #fff;
+
   transition: all 0.3s ease-in;
   font-size: 0.9rem;
-  font-weight:500;
-
+  font-weight: 500;
 
   &:hover {
-    color: #67bc98;
+    color: #aaacdd;
   }
 `;
 
