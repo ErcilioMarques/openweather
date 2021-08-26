@@ -1,10 +1,12 @@
 import React from 'react'
+import { WeatherDescriptionTitle } from '../components/weather/CurrentWeatherCard'
+import { Container } from '../components/weather/WeatherCard'
 
 function AboutUs() {
     return (
-        <div>
-            <h3>About Us</h3>
-        </div>
+        <Container >
+        <WeatherDescriptionTitle>About us</WeatherDescriptionTitle>
+    </Container>
     )
 }
 

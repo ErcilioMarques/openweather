@@ -219,7 +219,7 @@ const CityNameTitle = styled.h2`
   -webkit-animation: up 2s cubic-bezier(0.39, 0, 0.38, 1);
 `;
 
-const WeatherDescriptionTitle = styled.div`
+ export const WeatherDescriptionTitle = styled.div`
   position: relative;
   display: flex;
   padding: 10px 0px;

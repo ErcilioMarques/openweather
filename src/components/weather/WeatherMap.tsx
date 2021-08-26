@@ -14,6 +14,7 @@ import styled from "styled-components";
 import { NoDataLabel } from "./WeatherCard";
 import WeatherPreviewCard from "./WeatherPreviewCard";
 import { WeatherContext } from "../../store/weatherStoreContext";
+import { weatherMapType } from "./WeatherMapType";
 
 const containerStyle = {
   width: "100%",
@@ -24,21 +25,23 @@ const center = {
   lat: -25.9653,
   lng: 32.5892,
 };
-
-const options = {
+const optionsDefaults = {
   disableDefaultUI: true,
   zoomControl: true,
+  mapTypeControlOptions: {
+    mapTypeIds: ["weatherMapType"],
+  },
+  extraMapTypes: [weatherMapType({})],
 };
-
-const libraries = ["places"];
 
 function WeatherMap() {
   const [units, setUnits] = useState("metrics");
   const [coord, setCoord] = useState({ lat: -25.9653, lng: 32.5892 });
   const [weather, setWeather] = useState({});
+  const [options, setOptions] = useState(optionsDefaults);
   const [isLoading, setIsLoading] = useState(true);
   const [clicked, setClicked] = useState(false);
-  
+
   const [markerMap, setMarkerMap] = useState([]);
 
   const markerLoadHandler = (
@@ -74,36 +77,44 @@ function WeatherMap() {
     setMap(null);
   }, []);
 
-
   const [center, setCenter] = useState({ lat: -25.9653, lng: 32.5892 });
-    const [cityWeather, setcityWeather] = useState({});
-    const weatherContext = useContext(WeatherContext);
+  const [cityWeather, setcityWeather] = useState({});
+  const weatherContext = useContext(WeatherContext);
 
-    useEffect(() => {
-      setcityWeather(weatherContext!.weatherForecast!.list![0]);
- 
-     let co = {
-       lat: weatherContext!.weatherForecast!.city!.coord!.lat,
-       lng: weatherContext.weatherForecast.city?.coord?.lon,
-     };
-     setCenter({
-       lat: weatherContext!.weatherForecast!.city!.coord!.lat,
-       lng: weatherContext.weatherForecast!.city!.coord!.lon,
-     });
-   },[weatherContext!.weatherForecast!.city!.coord!]);
+  useEffect(() => {
+    setcityWeather(weatherContext!.weatherForecast!.list![0]);
+    let optionsDefaults = {
+      disableDefaultUI: true,
+      zoomControl: true,
+      mapTypeControlOptions: {
+        mapTypeIds: ["weatherMapType"],
+      },
+      extraMapTypes: [
+        weatherMapType({
+          layer: "temp_new",
+          zoomLevel: 3,
+          XtileCoord: weatherContext.city.coord?.lat,
+          yTileCoord: weatherContext.city.coord?.lon,
+        }),
+      ],
+    };
+    setOptions(optionsDefaults);
 
+    let co = {
+      lat: weatherContext!.weatherForecast!.city!.coord!.lat,
+      lng: weatherContext.weatherForecast.city?.coord?.lon,
+    };
+    setCenter({
+      lat: weatherContext!.weatherForecast!.city!.coord!.lat,
+      lng: weatherContext.weatherForecast!.city!.coord!.lon,
+    });
+  }, [weatherContext!.weatherForecast!.city!.coord!]);
 
-
-
-
-
-
-
-   if (!isLoaded) return <NoDataLabel>Loading Maps...</NoDataLabel>;
-   if (loadError)
-     return (
-       <NoDataLabel>Oops, there is something wrong with location...</NoDataLabel>
-     );
+  if (!isLoaded) return <NoDataLabel>Loading Maps...</NoDataLabel>;
+  if (loadError)
+    return (
+      <NoDataLabel>Oops, there is something wrong with location...</NoDataLabel>
+    );
   if (isLoaded)
     return (
       <CardContainer>
@@ -115,7 +126,6 @@ function WeatherMap() {
           center={center}
           options={options}
         >
-          
           <Marker
             key={markerMap.length}
             title={"click to check the weather"}
@@ -127,7 +137,6 @@ function WeatherMap() {
             <InfoWindow position={center}>
               <WeatherPreviewCard weather={cityWeather}></WeatherPreviewCard>
             </InfoWindow>
-
           ) : null}
         </GoogleMap>
       </CardContainer>

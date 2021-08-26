@@ -4,13 +4,13 @@ function getLocation() {
   let coordinates = { lat: 0, lon: 0 };
   let haveLocation = false;
 
-  navigator.geolocation.watchPosition((success) => {
+  if (navigator.geolocation)
+    navigator.geolocation.getCurrentPosition(showPosition);
+  function showPosition(position: any) {
     haveLocation = true;
-    coordinates = {
-      lat: success.coords.latitude,
-      lon: success.coords.longitude,
-    };
-  });
+
+    return { coordinates: position, status: haveLocation };
+  }
 
   return { coordinates: coordinates, status: haveLocation };
 }
@@ -25,101 +25,62 @@ async function getWeatherByCoordinates() {
   };
 
   const resultGetLocation = getLocation();
-  if(resultGetLocation.status){
-   coord = {
-    lat: resultGetLocation.coordinates.lat,
-    lon: resultGetLocation.coordinates.lat,
-  };
+  if (resultGetLocation.status) {
+    coord = {
+      lat: resultGetLocation.coordinates.lat,
+      lon: resultGetLocation.coordinates.lat,
+    };
 
-  const params = {
-    lat: coord.lat,
-    lon: coord.lon,
-    units: "metrics",
-    appid: process.env.REACT_APP_OPEN_WEATHER_ID,
-  };
+    const params = {
+      lat: coord.lat,
+      lon: coord.lon,
+      units: "metrics",
+      appid: process.env.REACT_APP_OPEN_WEATHER_ID,
+    };
 
-  const teste = await axios
-  .get(`${process.env.REACT_APP_OPEN_WEATHER_API_URL!}/weather`, { params });
+    const requestResult = await axios
+      .get(`${process.env.REACT_APP_OPEN_WEATHER_API_URL!}/weather`, { params })
+      .catch((error) => {
+        return {
+          status: error.status,
+          message: error.messagestatus,
+          data: error.response.data,
+          error: error.response.data.message,
+        };
+      });
 
-  
-  if(teste.status === 200){
-    return { status: teste.status, data: teste.data.list, error: teste.data.message }
-
-  }else{
-    return { status: teste.status, data: response, error: teste.data.message }
-
+    if (requestResult.status === 200)
+      getCityWeatherForecast(requestResult.data.name);
   }
-
-
-  axios
-    .get(`${process.env.REACT_APP_OPEN_WEATHER_API_URL!}/weather`, { params })
-    .then((res) => {
-      return res.data;
-    })
-    .then((data) => {
-      console.log(data);
-      requestSuccess = 200;
-      response = data;
-      return { status: requestSuccess, data: response, error: errorMessage }
-    })
-    .catch(function (error) {
-      if (error.response) {
-        errorMessage = error.response.data.message;
-        console.log(error.response.data.message);
-      } else {
-        errorMessage = "unknown error";
-      }
-      return { status: requestSuccess, data: response, error: errorMessage }
-    });
-
-  return { status: requestSuccess, data: response, error: errorMessage };
-}else {
-  return { status: 404, data: response, error: "No coordinates found" };
-}
 }
 
-async function  getCityWeatherForecast(props: { cityQuery: string }) {  let requestSuccess = 404;
+async function getCityWeatherForecast(props: { cityQuery: string }) {
+  let requestSuccess = 404;
   let response = {};
   let errorMessage = "";
 
   const params = {
-    method:'get',
+    method: "get",
     q: props.cityQuery,
     units: "metric",
     appid: process.env.REACT_APP_OPEN_WEATHER_ID!,
   };
 
-  const teste = await axios(`${process.env.REACT_APP_OPEN_WEATHER_API_URL!}/forecast`, { params });
+  const requestResult = await axios(
+    `${process.env.REACT_APP_OPEN_WEATHER_API_URL!}/forecast`,
+    { params }
+  ).catch((error) => {
+    return {
+      status: requestSuccess,
+      data: error.response.data,
+      error: error.response.data.message,
+    };
+  });
 
-  if(teste.status === 200){
-    return { status: teste.status, data: teste.data, error: teste.data.message }
-
-  }else{
-    return { status: teste.status, data: response, error: teste.data.message }
-
-  }
-  axios
-    .get(`${process.env.REACT_APP_OPEN_WEATHER_API_URL!}/forecast`, {
-      params,
-    })
-    .then((res) => {
-      return res.data;
-    })
-    .then((data) => {
-      console.log(data);
-      requestSuccess = 200;
-      response = data;
-      return { status: requestSuccess, data: response, error: errorMessage }
-    })
-    .catch(function (error) {
-      if (error.response) {
-        errorMessage = error.response.data.message;
-        console.log(error.response.data.message);
-      } else {
-        errorMessage = "unknown error";
-      } return { status: requestSuccess, data: response, error: errorMessage }
-      
-    });
-
+  return {
+    status: requestResult.status,
+    data: requestResult.data,
+    error: requestResult.data.message,
+  };
 }
 export default { getLocation, getCityWeatherForecast, getWeatherByCoordinates };
