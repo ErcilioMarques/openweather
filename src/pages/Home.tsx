@@ -114,7 +114,7 @@ function Home() {
 const SearchFormContainer = styled.div`
   padding: 1rem;
   margin-top: 4px;
-  width: 100%;
+  width: 90%;
   height: auto;
   margin: 0 auto;
   display: inline-flex;
@@ -134,7 +134,7 @@ const SearchForm = styled.form`
   justify-items: center;
   flex-wrap: nowrap;
   @media screen and (max-width: 900px) {
-    width: 100%;
+    width: 90%;
   }
 `;
 
@@ -174,7 +174,7 @@ const SearchInput = styled.input`
     }
   }
   @media screen and (max-width: 900px) {
-    width: 100%;
+    width: 99%;
   }
 `;
 const SearchButton = styled.button`

@@ -1,15 +1,17 @@
+/* @import "assets/style/sass/variables.scss"; */
+
 * {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -33,10 +35,30 @@ code {
 } */
 
 
-.dailyDhart{
-width:500px;
-height: 700px;
-
-
-
+#dailyChart {
+  width: 600px !important;
+  
 }
+
+@media screen and (max-width: 900px) {
+  #dailyChart {
+    width: 95vw !important;
+    height: auto;
+    flex-direction: column;
+  }
+}
+
+@media screen and (min-width: 1100px) {
+  .dailyChart {
+    width: 53% !important;
+    height: 100vh;
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .tablist {
+    width: 100vw;
+  }
+}
+

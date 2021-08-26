@@ -53,7 +53,7 @@ function WeatherCard() {
               );
             })}
 
-            <TabList>
+            <TabList className='tablist'>
               {arrayAux!.map((weatherForecast, index) => {
                 return (
                   <Tab>
@@ -94,7 +94,7 @@ const Container = styled.div`
 
   @media screen and (max-width: 900px) {
     width: 100%; 
-    flex-direction:column;/* The width is 100%, when the viewport is 800px or smaller */
+    flex-direction:column;
   
 }
 `;
@@ -109,7 +109,7 @@ const ContainerCurrentWeatherCard = styled.div`
   width: 60%;
 
   @media screen and (max-width: 900px) {
-    width: 89vw; /* The width is 100%, when the viewport is 800px or smaller */
+    width: 89vw; 
 
 }
 `;
