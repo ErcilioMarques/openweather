@@ -43,7 +43,7 @@ function WeatherCard() {
 
         <ContainerCurrentWeatherCard>
           <Tabs>
-            {arrayAux!.map((weatherForecast, index) => {
+            {arrayAux!.map((weatherForecast) => {
               return (
                 <TabPanel>
                   <CurrentWeatherCard
@@ -54,7 +54,7 @@ function WeatherCard() {
             })}
 
             <TabList className='tablist'>
-              {arrayAux!.map((weatherForecast, index) => {
+              {arrayAux!.map((weatherForecast) => {
                 return (
                   <Tab>
                     <WeatherPreviewCard
@@ -112,10 +112,6 @@ const ContainerCurrentWeatherCard = styled.div`
     width: 89vw; 
 
 }
-`;
-
-const ContainerOtherDaysWeatherCard = styled.div`
-  flex-grow: 4;
 `;
 
 export const NoDataLabel = styled.label`

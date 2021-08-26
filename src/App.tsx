@@ -1,11 +1,9 @@
-import styled from "styled-components";
 import Layout from "./components/layout/Layout";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./pages/Home";
 import OurWork from "./pages/OurWork";
 import AboutUs from "./pages/AboutUs";
-import weatherApiServices from "../src/Utils/weatherApiServices";
-import React, { Component } from "react";
+import React from "react";
 
 
 function App() {

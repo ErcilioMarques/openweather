@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { WeatherContext } from "../../store/weatherStoreContext";
 import { useContext } from "react";
-import variables from "../../Utils/variables";
 import { ObjectWeather } from "../../Interfaces/WeatherForecastInterface";
 import WeatherDailyChart from "./WeatherDailyChart";
 import { WeatherConversions } from "../../Utils/WeatherConversions";
@@ -22,7 +21,7 @@ function CurrentWeatherCard(props: { weather: ObjectWeather }) {
 
   if (arrayAux !== null)
     arrayAux = arrayAux!.filter(
-      (item, index) =>
+      (item) =>
         props!.weather!.dt_txt!.substring(0, 10) === item!.dt_txt!.substring(0, 10)
     );
 
@@ -185,13 +184,6 @@ const CardWeatherDay = styled.div`
   }
 `;
 
-const WeatherChartcard = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 20%;
-  justify-content: space-between;
-  align-items: center;
-`;
 
 export const WeatherIcon = styled.img`
   padding: 10px 5px;

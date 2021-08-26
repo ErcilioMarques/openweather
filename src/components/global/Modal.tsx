@@ -1,14 +1,10 @@
 import { useContext } from "react";
 import styled from "styled-components";
 import { WeatherContext } from "../../store/weatherStoreContext";
-import { WeatherIcon } from "../weather/CurrentWeatherCard";
 
 function Modal(props: { onCancel: () => void; onConfirm: () => void }) {
   const weatherContext = useContext(WeatherContext);
 
-  function cancelHandler() {
-    props.onCancel();
-  }
 
   function confirmHandler() {
     props.onConfirm();
