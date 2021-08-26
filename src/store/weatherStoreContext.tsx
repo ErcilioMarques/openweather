@@ -9,9 +9,6 @@ const cityWeatherObject: CityWeatherInterface = {};
 const cityWeatherObjectFOrecast: WeatherForecastInterface = {};
 const city: City = {};
 
-interface IMyComponentProps {
-  Component: React.ComponentType;
-}
 
 export const WeatherContext = createContext({
   weather: cityWeatherObject,

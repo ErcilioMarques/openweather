@@ -16,9 +16,6 @@ function getLocation() {
 }
 
 async function getWeatherByCoordinates() {
-  let requestSuccess = 404;
-  let response = {};
-  let errorMessage = "";
   let coord = {
     lat: 0,
     lon: 0,
@@ -56,8 +53,6 @@ async function getWeatherByCoordinates() {
 
 async function getCityWeatherForecast(props: { cityQuery: string }) {
   let requestSuccess = 404;
-  let response = {};
-  let errorMessage = "";
 
   const params = {
     method: "get",

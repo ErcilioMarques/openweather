@@ -1,4 +1,3 @@
-import ImageMapTypeInterface from "../../Interfaces/ImageMapTypeInterface";
 
 export const weatherMapType = (props: {
   layer?: string;
@@ -11,7 +10,6 @@ export const weatherMapType = (props: {
     if (!normalizedCoord) {
       return null;
     }
-    var bound = Math.pow(2, zoom);
     return `https://tile.openweathermap.org/map/${props.layer} / ${props.zoomLevel} / ${props.XtileCoord} / ${props.yTileCoord}
     }.png?appid=${process.env.REACT_APP_OPEN_WEATHER_API_URL}`;
   },

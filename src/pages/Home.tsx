@@ -1,14 +1,11 @@
-import React, { Dispatch, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import WeatherCard from "../components/weather/WeatherCard";
-import WeatherMap from "../components/weather/WeatherMap";
 import { WeatherContext } from "../store/weatherStoreContext";
 import { useContext } from "react";
 import { useRef } from "react";
 import { useState } from "react";
 import weatherApiServices from "../Utils/weatherApiServices";
-import axios from "axios";
-import { CityWeatherInterface } from "../Interfaces/WeatherCityInterface";
 import { WeatherForecastInterface } from "../Interfaces/WeatherForecastInterface";
 import Modal from "../components/global/Modal";
 import Backdrop from "../components/global/Backdrop";
@@ -16,22 +13,6 @@ import Backdrop from "../components/global/Backdrop";
 function Home() {
   const weatherContext = useContext(WeatherContext);
   const cityNameInputRef = useRef<HTMLInputElement>(null);
-  const cityWeather: CityWeatherInterface = {};
-  const cityWeatherForecast: WeatherForecastInterface = {};
-  const [weather, setWeatherData] = useState<CityWeatherInterface>(cityWeather);
-  const [isLoading, setIsLoading] = useState(true);
-  const [requesWeatherByCoordinates, setRequestWeatherByCoordinates] = useState(
-    {
-      status: 404,
-      data: {},
-      error: "",
-    }
-  );
-  const [requesWeatherByCitName, setRequesWeatherByCitName] = useState({
-    status: 404,
-    data: {},
-    error: "",
-  });
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [enteredCithName, setEnteredCithName] = useState("");
 
@@ -55,7 +36,6 @@ function Home() {
       const req2 = await weatherApiServices.getCityWeatherForecast({
         cityQuery: enteredCithName,
       });
-      setRequesWeatherByCitName(req2);
 
       if (enteredCithName !== "") {
         let request = {

@@ -1,13 +1,9 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import Variables from "../../Utils/variables";
-import WeatherApiServices from "../../Utils/weatherApiServices";
 import {
   GoogleMap,
   useLoadScript,
   Marker,
   InfoWindow,
-  useGoogleMap,
 } from "@react-google-maps/api";
 import { useCallback } from "react";
 import styled from "styled-components";
@@ -21,10 +17,6 @@ const containerStyle = {
   height: "100%",
 };
 
-const center = {
-  lat: -25.9653,
-  lng: 32.5892,
-};
 const optionsDefaults = {
   disableDefaultUI: true,
   zoomControl: true,
@@ -35,29 +27,11 @@ const optionsDefaults = {
 };
 
 function WeatherMap() {
-  const [units, setUnits] = useState("metrics");
-  const [coord, setCoord] = useState({ lat: -25.9653, lng: 32.5892 });
-  const [weather, setWeather] = useState({});
   const [options, setOptions] = useState(optionsDefaults);
-  const [isLoading, setIsLoading] = useState(true);
   const [clicked, setClicked] = useState(false);
 
-  const [markerMap, setMarkerMap] = useState([]);
+  const [markerMap] = useState([]);
 
-  const markerLoadHandler = (
-    marker: Marker,
-    place: {
-      id: string;
-      pos: {
-        lat: number;
-        lng: number;
-      };
-    }
-  ) => {
-    return setMarkerMap((prevState) => {
-      return { ...prevState, marker };
-    });
-  };
 
   const { isLoaded, loadError } = useLoadScript({
     id: "google-map-script",
@@ -65,7 +39,7 @@ function WeatherMap() {
     libraries: ["places"],
   });
 
-  const [map, setMap] = useState(null);
+  const [, setMap] = useState(null);
 
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
@@ -73,7 +47,7 @@ function WeatherMap() {
     setMap(map);
   }, []);
 
-  const onUnmount = useCallback(function callback(map) {
+  const onUnmount = useCallback(function callback() {
     setMap(null);
   }, []);
 
@@ -100,10 +74,6 @@ function WeatherMap() {
     };
     setOptions(optionsDefaults);
 
-    let co = {
-      lat: weatherContext!.weatherForecast!.city!.coord!.lat,
-      lng: weatherContext.weatherForecast.city?.coord?.lon,
-    };
     setCenter({
       lat: weatherContext!.weatherForecast!.city!.coord!.lat,
       lng: weatherContext.weatherForecast!.city!.coord!.lon,
