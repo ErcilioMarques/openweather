@@ -67,8 +67,8 @@ async function getCityWeatherForecast(props: { cityQuery: string }) {
   ).catch((error) => {
     return {
       status: requestSuccess,
-      data: error.response.data,
-      error: error.response.data.message,
+      data: error.response?.data,
+      error: error.response?.data.message,
     };
   });
 
